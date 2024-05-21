@@ -2,6 +2,7 @@ package group.intelliboys.cimsfrontend.controllers;
 
 import com.google.gson.Gson;
 import group.intelliboys.cimsfrontend.App;
+import group.intelliboys.cimsfrontend.models.AuthenticationTokenHolder;
 import group.intelliboys.cimsfrontend.models.LoginRequest;
 import group.intelliboys.cimsfrontend.models.LoginResponse;
 import javafx.fxml.FXML;
@@ -45,6 +46,9 @@ public class LoginController implements Initializable {
     @FXML
     private ImageView passwordStatus;
     // ===========================================================
+
+    @FXML
+    private Pane invalidCredentialErrorPane;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -100,10 +104,38 @@ public class LoginController implements Initializable {
                         .build();
 
                 HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-
                 LoginResponse loginResponse = new Gson().fromJson(response.body(), LoginResponse.class);
 
-                System.out.println(loginResponse.getToken());
+                if (loginResponse.getToken() != null && loginResponse.getMessage().equalsIgnoreCase("Authentication Success!")) {
+                    AuthenticationTokenHolder.setToken(loginResponse.getToken());
+                    System.out.println(AuthenticationTokenHolder.getToken());
+                } else {
+
+                    Thread thread = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            invalidCredentialErrorPane.setVisible(true);
+
+                            try {
+                                Thread.sleep(3000);
+                                float opacity = 1f;
+
+                                for (int i = 0; i < 10; i++) {
+                                    opacity -= 0.1f;
+                                    invalidCredentialErrorPane.setOpacity(opacity);
+                                    Thread.sleep(80);
+                                }
+                                invalidCredentialErrorPane.setVisible(false);
+                                invalidCredentialErrorPane.setOpacity(1);
+                            } catch (Exception e) {
+                                System.out.println(e);
+                            }
+                        }
+                    });
+
+                    thread.start();
+                }
+
 
             } catch (Exception e) {
                 System.out.println(e);

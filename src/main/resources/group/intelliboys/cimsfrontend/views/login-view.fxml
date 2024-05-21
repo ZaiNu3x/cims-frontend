@@ -13,11 +13,25 @@
    <children>
       <Pane layoutX="14.0" layoutY="14.0" prefHeight="745.0" prefWidth="631.0" styleClass="left-pane">
          <children>
-            <Label layoutX="277.0" layoutY="96.0" text="LOGIN">
+            <Label layoutX="278.0" layoutY="110.0" text="LOGIN">
                <font>
                   <Font name="System Bold" size="25.0" />
                </font>
             </Label>
+            <Pane fx:id="invalidCredentialErrorPane" layoutX="137.0" layoutY="172.0" prefHeight="70.0" prefWidth="359.0" visible="false">
+               <children>
+                  <ImageView fitHeight="50.0" fitWidth="49.0" layoutX="25.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/info.png" />
+                     </image>
+                  </ImageView>
+                  <Label layoutX="96.0" layoutY="22.0" text="Invalid Username or Password" textFill="#3899dd">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
             <Pane fx:id="usernamePane" layoutX="104.0" layoutY="252.0" prefHeight="70.0" prefWidth="425.0" styleClass="username-pane">
                <children>
                   <ImageView fitHeight="36.0" fitWidth="34.0" layoutX="12.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true">
@@ -78,14 +92,14 @@
       </Pane>
       <Pane layoutX="652.0" layoutY="14.0" prefHeight="745.0" prefWidth="700.0" styleClass="right-pane">
          <children>
-            <Label layoutX="157.0" layoutY="268.0" text="CUSTOMER'S INFORMATION">
+            <Label layoutX="64.0" layoutY="257.0" text="CUSTOMER'S INFORMATION">
                <font>
-                  <Font size="30.0" />
+                  <Font name="Verdana" size="40.0" />
                </font>
             </Label>
-            <Label layoutX="191.0" layoutY="337.0" text="MANAGEMENT SYSTEM">
+            <Label layoutX="117.0" layoutY="330.0" text="MANAGEMENT SYSTEM">
                <font>
-                  <Font size="30.0" />
+                  <Font name="Verdana" size="40.0" />
                </font>
             </Label>
          </children></Pane>
