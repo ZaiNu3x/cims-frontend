@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1366.0" styleClass="parent-pane" stylesheets="@../styles/login-view-style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group.intelliboys.cimsfrontend.controllers.LoginController">
+   <children>
+      <Pane layoutX="14.0" layoutY="14.0" prefHeight="745.0" prefWidth="631.0" styleClass="left-pane">
+         <children>
+            <Label layoutX="277.0" layoutY="96.0" text="LOGIN">
+               <font>
+                  <Font name="System Bold" size="25.0" />
+               </font>
+            </Label>
+            <Pane fx:id="usernamePane" layoutX="104.0" layoutY="252.0" prefHeight="70.0" prefWidth="425.0" styleClass="username-pane">
+               <children>
+                  <ImageView fitHeight="36.0" fitWidth="34.0" layoutX="12.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/user.png" />
+                     </image>
+                  </ImageView>
+                  <TextField fx:id="usernameField" layoutX="58.0" layoutY="5.0" onKeyTyped="#isUsernameValid" prefHeight="60.0" prefWidth="350.0" promptText="Username" styleClass="username-field">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </TextField>
+               </children>
+            </Pane>
+            <Pane layoutX="104.0" layoutY="340.0" prefHeight="70.0" prefWidth="425.0" styleClass="password-pane">
+               <children>
+                  <ImageView fitHeight="36.0" fitWidth="34.0" layoutX="15.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/password.png" />
+                     </image>
+                  </ImageView>
+                  <PasswordField fx:id="passwordField" layoutX="61.0" layoutY="5.0" prefHeight="60.0" prefWidth="350.0" promptText="Password" styleClass="password-field">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </PasswordField>
+               </children>
+            </Pane>
+            <Label layoutX="387.0" layoutY="422.0" styleClass="forgot-password" text="Forgot Password" underline="true">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="349.0" layoutY="476.0" onMouseClicked="#loginButtonClicked" prefHeight="50.0" prefWidth="180.0" text="LOGIN">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/login.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <styleClass>
+                  <String fx:value="login-button" />
+                  <String fx:value="login-button-hover" />
+               </styleClass>
+            </Label>
+            <Label layoutX="278.0" layoutY="644.0" styleClass="register" text="REGISTER">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane layoutX="652.0" layoutY="14.0" prefHeight="745.0" prefWidth="700.0" styleClass="right-pane">
+         <children>
+            <Label layoutX="157.0" layoutY="268.0" text="CUSTOMER'S INFORMATION">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Label>
+            <Label layoutX="191.0" layoutY="337.0" text="MANAGEMENT SYSTEM">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Label>
+         </children></Pane>
+   </children>
+</Pane>
