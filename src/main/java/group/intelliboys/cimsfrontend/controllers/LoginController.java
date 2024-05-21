@@ -1,6 +1,9 @@
 package group.intelliboys.cimsfrontend.controllers;
 
+import com.google.gson.Gson;
 import group.intelliboys.cimsfrontend.App;
+import group.intelliboys.cimsfrontend.models.LoginRequest;
+import group.intelliboys.cimsfrontend.models.LoginResponse;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.PasswordField;
@@ -10,7 +13,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
+import java.net.URI;
 import java.net.URL;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.time.Duration;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -46,13 +54,12 @@ public class LoginController implements Initializable {
     public boolean isUsernameValid() {
         String username = usernameField.getText();
 
-        if(username.length() < 8 || username.length() > 30 || username.contains(" ")) {
+        if (username.length() < 8 || username.length() > 30 || username.contains(" ")) {
             usernamePane.setStyle("-fx-border-width: 2; -fx-border-color: red;");
             usernameStatus.setImage(new Image(Objects.requireNonNull(App.class.getResource("images/invalid.png")).toString()));
             usernameField.setTooltip(new Tooltip("Invalid Username!"));
             return false;
-        }
-        else {
+        } else {
             usernamePane.setStyle("-fx-border-width: 2; -fx-border-color: rgb(36, 76, 230);");
             usernameStatus.setImage(new Image(Objects.requireNonNull(App.class.getResource("images/check.png")).toString()));
             usernameField.setTooltip(null);
@@ -63,13 +70,12 @@ public class LoginController implements Initializable {
     public boolean isPasswordValid() {
         String password = passwordField.getText();
 
-        if(password.length() < 8 || password.length() > 30 || password.contains(" ")) {
+        if (password.length() < 8 || password.length() > 30 || password.contains(" ")) {
             passwordPane.setStyle("-fx-border-width: 2; -fx-border-color: red;");
             passwordStatus.setImage(new Image(Objects.requireNonNull(App.class.getResource("images/invalid.png")).toString()));
             passwordField.setTooltip(new Tooltip("Invalid Password!"));
             return false;
-        }
-        else {
+        } else {
             passwordPane.setStyle("-fx-border-width: 2; -fx-border-color: rgb(36, 76, 230);");
             passwordStatus.setImage(new Image(Objects.requireNonNull(App.class.getResource("images/check.png")).toString()));
             passwordField.setTooltip(null);
@@ -78,10 +84,31 @@ public class LoginController implements Initializable {
     }
 
     public void loginButtonClicked() {
-        if(isUsernameValid() && isPasswordValid()) {
-            System.out.println("Hello World!");
-        }
-        else {
+        if (isUsernameValid() && isPasswordValid()) {
+            String username = usernameField.getText();
+            String password = passwordField.getText();
+
+            LoginRequest loginRequest = new LoginRequest(username, password);
+            HttpClient httpClient = HttpClient.newHttpClient();
+            String requestBody = new Gson().toJson(loginRequest);
+
+            try {
+                HttpRequest request = HttpRequest.newBuilder(new URI("http://localhost:8080/login"))
+                        .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+                        .header("Content-Type", "application/json")
+                        .timeout(Duration.ofSeconds(30))
+                        .build();
+
+                HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+                LoginResponse loginResponse = new Gson().fromJson(response.body(), LoginResponse.class);
+
+                System.out.println(loginResponse.getToken());
+
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        } else {
             System.out.println("Invalid!");
         }
     }
