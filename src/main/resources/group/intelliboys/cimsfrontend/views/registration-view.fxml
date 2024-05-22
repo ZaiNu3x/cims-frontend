@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1366.0" style="-fx-background-color: white;" stylesheets="@../styles/registration-view-style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group.intelliboys.cimsfrontend.controllers.RegistrationController">
+    <children>
+        <Pane layoutX="309.0" layoutY="25.0" prefHeight="96.0" prefWidth="720.0">
+            <children>
+                <Slider layoutX="46.0" layoutY="7.0" prefHeight="50.0" prefWidth="630.0" />
+                <ImageView fitHeight="43.0" fitWidth="43.0" layoutX="35.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../images/security.png" />
+                    </image>
+                </ImageView>
+                <ImageView fitHeight="43.0" fitWidth="43.0" layoutX="340.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../images/user_info.png" />
+                    </image>
+                </ImageView>
+                <ImageView fitHeight="43.0" fitWidth="43.0" layoutX="655.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../images/completed.png" />
+                    </image>
+                </ImageView>
+            </children>
+        </Pane>
+        <Pane layoutX="244.0" layoutY="139.0" prefHeight="590.0" prefWidth="850.0" styleClass="content-pane">
+         <children>
+            <Pane fx:id="usernamePane" layoutX="213.0" layoutY="131.0" prefHeight="70.0" prefWidth="425.0" styleClass="username-pane">
+               <children>
+                  <ImageView fitHeight="36.0" fitWidth="34.0" layoutX="12.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/user.png" />
+                     </image>
+                  </ImageView>
+                  <TextField fx:id="usernameField" layoutX="58.0" layoutY="5.0" onKeyTyped="#isUsernameValid" prefHeight="60.0" prefWidth="310.0" promptText="Username" styleClass="username-field">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </TextField>
+                  <ImageView fx:id="usernameStatus" fitHeight="36.0" fitWidth="34.0" layoutX="377.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </Pane>
+            <Pane fx:id="passwordPane" layoutX="213.0" layoutY="219.0" prefHeight="70.0" prefWidth="425.0" styleClass="password-pane">
+               <children>
+                  <ImageView fitHeight="36.0" fitWidth="34.0" layoutX="15.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/password.png" />
+                     </image>
+                  </ImageView>
+                  <PasswordField fx:id="passwordField" layoutX="61.0" layoutY="5.0" onKeyTyped="#isPasswordValid" prefHeight="60.0" prefWidth="310.0" promptText="Password" styleClass="password-field">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </PasswordField>
+                  <ImageView fx:id="passwordStatus" fitHeight="36.0" fitWidth="34.0" layoutX="377.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </Pane>
+            <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" graphicTextGap="15.0" layoutX="638.0" layoutY="515.0" onMouseClicked="#nextButtonClicked" prefHeight="50.0" prefWidth="180.0" text="NEXT">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/next.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <styleClass>
+                  <String fx:value="login-button" />
+                  <String fx:value="login-button-hover" />
+               </styleClass>
+            </Label>
+            <Label graphicTextGap="15.0" layoutX="33.0" layoutY="515.0" onMouseClicked="#backToLogin" prefHeight="50.0" prefWidth="180.0" text="BACK">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/back.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <styleClass>
+                  <String fx:value="login-button" />
+                  <String fx:value="login-button-hover" />
+               </styleClass>
+            </Label>
+         </children></Pane>
+    </children>
+</Pane>

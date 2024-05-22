@@ -17,6 +17,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
 import java.net.http.HttpClient;
@@ -92,6 +93,14 @@ public class LoginController implements Initializable {
         }
     }
 
+    public void registerButtonClicked() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("views/registration-view.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+
+        App.primaryStage.setScene(scene);
+        App.primaryStage.centerOnScreen();
+    }
+
     public void loginButtonClicked() {
         if (isUsernameValid() && isPasswordValid()) {
             String username = usernameField.getText();
@@ -117,7 +126,7 @@ public class LoginController implements Initializable {
                     String role = JwtService.extractRole(AuthenticationTokenHolder.getToken());
                     FXMLLoader fxmlLoader;
 
-                    switch (role) {
+                    switch (Objects.requireNonNull(role)) {
                         case "ROLE_ADMIN":
                             fxmlLoader = new FXMLLoader(App.class.getResource("views/admin-dashboard-view.fxml"));
                             Scene adminScene = new Scene(fxmlLoader.load());

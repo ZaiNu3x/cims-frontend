@@ -97,7 +97,7 @@
                   <String fx:value="login-button-hover" />
                </styleClass>
             </Label>
-            <Label layoutX="278.0" layoutY="644.0" styleClass="register" text="REGISTER">
+            <Label layoutX="278.0" layoutY="644.0" onMouseClicked="#registerButtonClicked" styleClass="register" text="REGISTER">
                <font>
                   <Font size="18.0" />
                </font>
