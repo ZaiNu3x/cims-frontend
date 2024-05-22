@@ -4,6 +4,7 @@ module group.intelliboys.cimsfrontend {
     requires java.net.http;
     requires com.google.gson;
     requires com.nimbusds.jose.jwt;
+    requires lombok;
 
     opens group.intelliboys.cimsfrontend to javafx.fxml;
     opens group.intelliboys.cimsfrontend.models to com.google.gson;

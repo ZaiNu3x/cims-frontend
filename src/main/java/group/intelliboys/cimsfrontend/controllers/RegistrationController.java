@@ -1,6 +1,7 @@
 package group.intelliboys.cimsfrontend.controllers;
 
 import group.intelliboys.cimsfrontend.App;
+import group.intelliboys.cimsfrontend.models.user.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -43,6 +44,17 @@ public class RegistrationController {
     private ImageView passwordStatus;
     // ===========================================================
 
+    // ======================== CONFIRM PASSWORD =========================
+    @FXML
+    private Pane confirmPasswordPane;
+
+    @FXML
+    private PasswordField confirmPasswordField;
+
+    @FXML
+    private ImageView confirmPasswordStatus;
+    // ===========================================================
+
     @FXML
     private Pane serverErrorPane;
 
@@ -72,11 +84,13 @@ public class RegistrationController {
             passwordPane.setStyle("-fx-border-width: 2; -fx-border-color: red;");
             passwordStatus.setImage(new Image(Objects.requireNonNull(App.class.getResource("images/invalid.png")).toString()));
             passwordField.setTooltip(new Tooltip("Invalid Password!"));
+
             return false;
         } else {
             passwordPane.setStyle("-fx-border-width: 2; -fx-border-color: rgb(36, 76, 230);");
             passwordStatus.setImage(new Image(Objects.requireNonNull(App.class.getResource("images/check.png")).toString()));
             passwordField.setTooltip(null);
+
             return true;
         }
     }
@@ -155,14 +169,42 @@ public class RegistrationController {
             });
 
             thread.start();
+            return true;
+        }
+    }
+
+    public boolean isConfirmPasswordSame() {
+        String password = passwordField.getText();
+        String confirmPassword = confirmPasswordField.getText();
+
+        if (password.isEmpty() || !password.equals(confirmPassword)) {
+            confirmPasswordPane.setStyle("-fx-border-width: 2; -fx-border-color: red;");
+            confirmPasswordStatus.setImage(new Image(Objects.requireNonNull(App.class.getResource("images/invalid.png")).toString()));
+            confirmPasswordField.setTooltip(new Tooltip("Confirm password is not same with password!"));
+
             return false;
+        } else {
+            confirmPasswordPane.setStyle("-fx-border-width: 2; -fx-border-color: rgb(36, 76, 230);");
+            confirmPasswordStatus.setImage(new Image(Objects.requireNonNull(App.class.getResource("images/check.png")).toString()));
+            confirmPasswordField.setTooltip(null);
+            return true;
         }
     }
 
     public void nextButtonClicked() {
-        if (isUsernameValid() && isPasswordValid() && !isUsernameExists()) {
-            //
+        String username = usernameField.getText();
+        String password = passwordField.getText();
+
+        if (isUsernameValid() && isPasswordValid() && isConfirmPasswordSame() && !isUsernameExists()) {
+            User registeringUser = User.builder()
+                    .username(username)
+                    .password(password)
+                    .build();
+
+            System.out.println(registeringUser.getUsername()+"\n" +
+                    registeringUser.getPassword());
         }
+
     }
 
     public void backToLogin() throws IOException {

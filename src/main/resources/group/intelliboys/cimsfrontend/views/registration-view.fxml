@@ -124,6 +124,21 @@
                   <String fx:value="login-button-hover" />
                </styleClass>
             </Label>
+            <Pane fx:id="confirmPasswordPane" layoutX="213.0" layoutY="309.0" prefHeight="70.0" prefWidth="425.0" styleClass="password-pane">
+               <children>
+                  <ImageView fitHeight="36.0" fitWidth="34.0" layoutX="15.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/confirm_password.png" />
+                     </image>
+                  </ImageView>
+                  <PasswordField fx:id="confirmPasswordField" layoutX="61.0" layoutY="5.0" onKeyTyped="#isConfirmPasswordSame" prefHeight="60.0" prefWidth="310.0" promptText="Confirm Password" styleClass="password-field">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </PasswordField>
+                  <ImageView fx:id="confirmPasswordStatus" fitHeight="36.0" fitWidth="34.0" layoutX="377.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </Pane>
          </children></Pane>
     </children>
 </Pane>
