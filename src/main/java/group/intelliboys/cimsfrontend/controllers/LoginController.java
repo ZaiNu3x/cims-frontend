@@ -5,8 +5,11 @@ import group.intelliboys.cimsfrontend.App;
 import group.intelliboys.cimsfrontend.models.AuthenticationTokenHolder;
 import group.intelliboys.cimsfrontend.models.LoginRequest;
 import group.intelliboys.cimsfrontend.models.LoginResponse;
+import group.intelliboys.cimsfrontend.services.JwtService;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
@@ -50,9 +53,11 @@ public class LoginController implements Initializable {
     @FXML
     private Pane invalidCredentialErrorPane;
 
+    @FXML
+    private Pane serverErrorPane;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
     }
 
     public boolean isUsernameValid() {
@@ -108,9 +113,30 @@ public class LoginController implements Initializable {
 
                 if (loginResponse.getToken() != null && loginResponse.getMessage().equalsIgnoreCase("Authentication Success!")) {
                     AuthenticationTokenHolder.setToken(loginResponse.getToken());
-                    System.out.println(AuthenticationTokenHolder.getToken());
-                } else {
 
+                    String role = JwtService.extractRole(AuthenticationTokenHolder.getToken());
+                    FXMLLoader fxmlLoader;
+
+                    switch (role) {
+                        case "ROLE_ADMIN":
+                            fxmlLoader = new FXMLLoader(App.class.getResource("views/admin-dashboard-view.fxml"));
+                            Scene adminScene = new Scene(fxmlLoader.load());
+                            App.primaryStage.setScene(adminScene);
+                            App.primaryStage.centerOnScreen();
+                            break;
+
+                        case "ROLE_STAFF":
+                            fxmlLoader = new FXMLLoader(App.class.getResource("views/staff-dashboard-view.fxml"));
+                            Scene staffScene = new Scene(fxmlLoader.load());
+                            App.primaryStage.setScene(staffScene);
+                            App.primaryStage.centerOnScreen();
+                            break;
+
+                        default:
+                            System.out.println("Error!");
+                    }
+
+                } else {
                     Thread thread = new Thread(new Runnable() {
                         @Override
                         public void run() {
@@ -138,7 +164,29 @@ public class LoginController implements Initializable {
 
 
             } catch (Exception e) {
-                System.out.println(e);
+                Thread thread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        serverErrorPane.setVisible(true);
+
+                        try {
+                            Thread.sleep(3000);
+                            float opacity = 1f;
+
+                            for (int i = 0; i < 10; i++) {
+                                opacity -= 0.1f;
+                                serverErrorPane.setOpacity(opacity);
+                                Thread.sleep(80);
+                            }
+                            serverErrorPane.setVisible(false);
+                            serverErrorPane.setOpacity(1);
+                        } catch (Exception e) {
+                            System.out.println(e);
+                        }
+                    }
+                });
+
+                thread.start();
             }
         } else {
             System.out.println("Invalid!");

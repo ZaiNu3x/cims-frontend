@@ -25,7 +25,21 @@
                         <Image url="@../images/info.png" />
                      </image>
                   </ImageView>
-                  <Label layoutX="96.0" layoutY="22.0" text="Invalid Username or Password" textFill="#3899dd">
+                  <Label layoutX="96.0" layoutY="22.0" text="Invalid Username or Password!" textFill="#2866c3">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+            <Pane fx:id="serverErrorPane" layoutX="137.0" layoutY="172.0" prefHeight="70.0" prefWidth="359.0" visible="false">
+               <children>
+                  <ImageView fitHeight="50.0" fitWidth="49.0" layoutX="25.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/server_error.png" />
+                     </image>
+                  </ImageView>
+                  <Label layoutX="96.0" layoutY="22.0" text="Can't connect to the server!" textFill="#2866c3">
                      <font>
                         <Font size="18.0" />
                      </font>
