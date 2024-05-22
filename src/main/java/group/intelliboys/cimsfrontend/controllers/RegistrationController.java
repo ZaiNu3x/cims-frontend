@@ -46,6 +46,9 @@ public class RegistrationController {
     @FXML
     private Pane serverErrorPane;
 
+    @FXML
+    private Pane usernameExistsPane;
+
     public boolean isUsernameValid() {
         String username = usernameField.getText();
 
@@ -98,7 +101,7 @@ public class RegistrationController {
                 Thread thread = new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        serverErrorPane.setVisible(true);
+                        usernameExistsPane.setVisible(true);
 
                         try {
                             Thread.sleep(3000);
@@ -106,11 +109,11 @@ public class RegistrationController {
 
                             for (int i = 0; i < 10; i++) {
                                 opacity -= 0.1f;
-                                serverErrorPane.setOpacity(opacity);
+                                usernameExistsPane.setOpacity(opacity);
                                 Thread.sleep(80);
                             }
-                            serverErrorPane.setVisible(false);
-                            serverErrorPane.setOpacity(1);
+                            usernameExistsPane.setVisible(false);
+                            usernameExistsPane.setOpacity(1);
                         } catch (Exception e) {
                             System.out.println(e);
                         }
@@ -158,7 +161,7 @@ public class RegistrationController {
 
     public void nextButtonClicked() {
         if (isUsernameValid() && isPasswordValid() && !isUsernameExists()) {
-            System.out.println("Hello World!");
+            //
         }
     }
 
