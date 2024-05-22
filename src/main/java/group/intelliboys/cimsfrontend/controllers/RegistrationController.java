@@ -12,6 +12,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.time.Duration;
 import java.util.Objects;
 
 public class RegistrationController {
@@ -37,6 +42,9 @@ public class RegistrationController {
     @FXML
     private ImageView passwordStatus;
     // ===========================================================
+
+    @FXML
+    private Pane serverErrorPane;
 
     public boolean isUsernameValid() {
         String username = usernameField.getText();
@@ -71,11 +79,85 @@ public class RegistrationController {
     }
 
     private boolean isUsernameExists() {
-        return false;
+        String username = usernameField.getText();
+
+        HttpClient httpClient = HttpClient.newHttpClient();
+
+        try {
+            HttpRequest request = HttpRequest.newBuilder(new URI("http://localhost:8080/api/v1/user/registration/find/exists/" + username))
+                    .GET()
+                    .header("Content-Type", "application/json")
+                    .timeout(Duration.ofSeconds(30))
+                    .build();
+
+            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+            boolean isExists = Boolean.parseBoolean(response.body());
+
+            if (isExists) {
+                Thread thread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        serverErrorPane.setVisible(true);
+
+                        try {
+                            Thread.sleep(3000);
+                            float opacity = 1f;
+
+                            for (int i = 0; i < 10; i++) {
+                                opacity -= 0.1f;
+                                serverErrorPane.setOpacity(opacity);
+                                Thread.sleep(80);
+                            }
+                            serverErrorPane.setVisible(false);
+                            serverErrorPane.setOpacity(1);
+                        } catch (Exception e) {
+                            System.out.println(e);
+                        }
+                    }
+                });
+                thread.start();
+
+                usernamePane.setStyle("-fx-border-width: 2; -fx-border-color: red;");
+                usernameStatus.setImage(new Image(Objects.requireNonNull(App.class.getResource("images/invalid.png")).toString()));
+                usernameField.setTooltip(new Tooltip("Username already exists!"));
+
+                return true;
+            } else {
+                System.out.println("Username not exists!");
+                return false;
+            }
+
+        } catch (Exception e) {
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    serverErrorPane.setVisible(true);
+
+                    try {
+                        Thread.sleep(3000);
+                        float opacity = 1f;
+
+                        for (int i = 0; i < 10; i++) {
+                            opacity -= 0.1f;
+                            serverErrorPane.setOpacity(opacity);
+                            Thread.sleep(80);
+                        }
+                        serverErrorPane.setVisible(false);
+                        serverErrorPane.setOpacity(1);
+                    } catch (Exception e) {
+                        System.out.println(e);
+                    }
+                }
+            });
+
+            thread.start();
+            return false;
+        }
     }
 
     public void nextButtonClicked() {
-        if(isUsernameValid() && isPasswordValid() && isUsernameExists()) {
+        if (isUsernameValid() && isPasswordValid() && !isUsernameExists()) {
             System.out.println("Hello World!");
         }
     }

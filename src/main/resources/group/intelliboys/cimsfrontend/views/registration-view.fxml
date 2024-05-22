@@ -34,6 +34,20 @@
         </Pane>
         <Pane layoutX="244.0" layoutY="139.0" prefHeight="590.0" prefWidth="850.0" styleClass="content-pane">
          <children>
+            <Pane fx:id="serverErrorPane" layoutX="246.0" layoutY="37.0" prefHeight="70.0" prefWidth="359.0" visible="false">
+               <children>
+                  <ImageView fitHeight="50.0" fitWidth="49.0" layoutX="25.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/server_error.png" />
+                     </image>
+                  </ImageView>
+                  <Label layoutX="96.0" layoutY="22.0" text="Can't connect to the server!" textFill="#2866c3">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
             <Pane fx:id="usernamePane" layoutX="213.0" layoutY="131.0" prefHeight="70.0" prefWidth="425.0" styleClass="username-pane">
                <children>
                   <ImageView fitHeight="36.0" fitWidth="34.0" layoutX="12.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true">
