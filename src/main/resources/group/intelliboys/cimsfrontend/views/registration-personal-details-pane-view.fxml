@@ -86,24 +86,24 @@
                   </ImageView>
                </graphic>
             </Label>
-            <Pane fx:id="usernamePane12" layoutX="193.0" layoutY="85.0" prefHeight="70.0" prefWidth="425.0" styleClass="housenum-pane">
+            <Pane fx:id="houseNumPane" layoutX="193.0" layoutY="85.0" prefHeight="70.0" prefWidth="425.0" styleClass="housenum-pane">
                <children>
-                  <TextField fx:id="usernameField12" layoutX="28.0" layoutY="5.0" prefHeight="60.0" prefWidth="310.0" promptText="House #, Street" styleClass="housenum-field">
+                  <TextField fx:id="houseNumField" layoutX="28.0" layoutY="5.0" onKeyTyped="#isHouseNumValid" prefHeight="60.0" prefWidth="310.0" promptText="House #, Street" styleClass="housenum-field">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </TextField>
-                  <ImageView fx:id="usernameStatus12" fitHeight="36.0" fitWidth="34.0" layoutX="362.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="houseNumStatus" fitHeight="36.0" fitWidth="34.0" layoutX="362.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true" />
                </children>
             </Pane>
-            <Pane fx:id="usernamePane11112" layoutX="193.0" layoutY="169.0" prefHeight="70.0" prefWidth="425.0" styleClass="city-pane">
+            <Pane fx:id="cityPane" layoutX="193.0" layoutY="169.0" prefHeight="70.0" prefWidth="425.0" styleClass="city-pane">
                <children>
-                  <ComboBox layoutX="28.0" layoutY="5.0" prefHeight="60.0" prefWidth="371.0" promptText="City" styleClass="city-field" />
+                  <ComboBox fx:id="cityField" layoutX="28.0" layoutY="5.0" onAction="#cityChangedValue" prefHeight="60.0" prefWidth="371.0" promptText="City" styleClass="city-field" />
                </children>
             </Pane>
-            <Pane fx:id="usernamePane111121" layoutX="193.0" layoutY="259.0" prefHeight="70.0" prefWidth="425.0" styleClass="barangay-pane">
+            <Pane fx:id="barangayPane" layoutX="193.0" layoutY="259.0" prefHeight="70.0" prefWidth="425.0" styleClass="barangay-pane">
                <children>
-                  <ComboBox layoutX="28.0" layoutY="5.0" prefHeight="60.0" prefWidth="371.0" promptText="Barangay" styleClass="barangay-field" />
+                  <ComboBox fx:id="barangayField" layoutX="28.0" layoutY="5.0" onAction="#barangayChangedValue" prefHeight="60.0" prefWidth="371.0" promptText="Barangay" styleClass="barangay-field" />
                </children>
             </Pane>
          </children>
@@ -125,7 +125,7 @@
                   <Image url="@../images/edit_image.png" />
                </image>
             </ImageView>
-            <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" graphicTextGap="15.0" layoutX="517.0" layoutY="98.0" prefHeight="50.0" prefWidth="180.0" text="NEXT">
+            <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" graphicTextGap="15.0" layoutX="517.0" layoutY="98.0" onMouseClicked="#nextButtonClicked" prefHeight="50.0" prefWidth="180.0" text="NEXT">
                <font>
                   <Font size="18.0" />
                </font>
