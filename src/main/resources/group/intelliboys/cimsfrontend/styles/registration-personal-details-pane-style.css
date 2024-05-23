@@ -1,0 +1,121 @@
+
+.content-pane {
+    -fx-border-width: 1px;
+    -fx-border-color: gray;
+    -fx-background-color: white;
+}
+
+.lastname-field {
+    -fx-background-color: none;
+}
+
+.lastname-pane {
+    -fx-border-width: 1;
+    -fx-border-color: gray;
+    -fx-border-radius: 30;
+    -fx-background-color: transparent;
+}
+
+.firstname-field {
+    -fx-background-color: none;
+}
+
+.firstname-pane {
+    -fx-border-width: 1;
+    -fx-border-color: gray;
+    -fx-border-radius: 30;
+    -fx-background-color: transparent;
+}
+
+.middlename-field {
+    -fx-background-color: none;
+}
+
+.middlename-pane {
+    -fx-border-width: 1;
+    -fx-border-color: gray;
+    -fx-border-radius: 30;
+    -fx-background-color: transparent;
+}
+
+.gender-field {
+    -fx-background-color: none;
+}
+
+.gender-pane {
+    -fx-border-width: 1;
+    -fx-border-color: gray;
+    -fx-border-radius: 30;
+    -fx-background-color: transparent;
+}
+
+.birthdate-field {
+    -fx-border-width: 0;
+    -fx-background-color: none;
+}
+
+.birthdate-pane {
+    -fx-border-width: 1;
+    -fx-border-color: gray;
+    -fx-border-radius: 30;
+    -fx-background-color: transparent;
+}
+
+.email-field {
+    -fx-border-width: 0;
+    -fx-background-color: none;
+}
+
+.email-pane {
+    -fx-border-width: 1;
+    -fx-border-color: gray;
+    -fx-border-radius: 30;
+    -fx-background-color: transparent;
+}
+
+.housenum-field {
+    -fx-border-width: 0;
+    -fx-background-color: none;
+}
+
+.housenum-pane {
+    -fx-border-width: 1;
+    -fx-border-color: gray;
+    -fx-border-radius: 30;
+    -fx-background-color: transparent;
+}
+
+.city-field {
+    -fx-border-width: 0;
+    -fx-background-color: none;
+}
+
+.city-pane {
+    -fx-border-width: 1;
+    -fx-border-color: gray;
+    -fx-border-radius: 30;
+    -fx-background-color: transparent;
+}
+
+.barangay-field {
+    -fx-border-width: 0;
+    -fx-background-color: none;
+}
+
+.barangay-pane {
+    -fx-border-width: 1;
+    -fx-border-color: gray;
+    -fx-border-radius: 30;
+    -fx-background-color: transparent;
+}
+
+.next-button {
+    -fx-border-width: 1;
+    -fx-border-color: gray;
+    -fx-border-radius: 20;
+}
+
+.next-button-hover:hover {
+    -fx-border-width: 2;
+    -fx-border-color: rgb(36, 76, 230);
+}

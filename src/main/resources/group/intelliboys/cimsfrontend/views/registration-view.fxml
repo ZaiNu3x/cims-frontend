@@ -3,6 +3,7 @@
 <?import java.lang.String?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
@@ -14,7 +15,7 @@
     <children>
         <Pane layoutX="309.0" layoutY="25.0" prefHeight="96.0" prefWidth="720.0">
             <children>
-                <Slider layoutX="46.0" layoutY="7.0" prefHeight="50.0" prefWidth="630.0" />
+                <Slider fx:id="registrationPhase" layoutX="46.0" layoutY="7.0" prefHeight="50.0" prefWidth="630.0" />
                 <ImageView fitHeight="43.0" fitWidth="43.0" layoutX="35.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true">
                     <image>
                         <Image url="@../images/security.png" />
@@ -32,7 +33,7 @@
                 </ImageView>
             </children>
         </Pane>
-        <Pane layoutX="244.0" layoutY="139.0" prefHeight="590.0" prefWidth="850.0" styleClass="content-pane">
+        <Pane fx:id="authenticationPane" layoutX="244.0" layoutY="139.0" prefHeight="590.0" prefWidth="850.0" styleClass="content-pane">
          <children>
             <Pane fx:id="serverErrorPane" layoutX="246.0" layoutY="37.0" prefHeight="70.0" prefWidth="359.0" visible="false">
                <children>
@@ -92,6 +93,21 @@
                   <ImageView fx:id="passwordStatus" fitHeight="36.0" fitWidth="34.0" layoutX="377.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true" />
                </children>
             </Pane>
+            <Pane fx:id="confirmPasswordPane" layoutX="213.0" layoutY="309.0" prefHeight="70.0" prefWidth="425.0" styleClass="password-pane">
+               <children>
+                  <ImageView fitHeight="36.0" fitWidth="34.0" layoutX="15.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/confirm_password.png" />
+                     </image>
+                  </ImageView>
+                  <PasswordField fx:id="confirmPasswordField" layoutX="61.0" layoutY="5.0" onKeyTyped="#isConfirmPasswordSame" prefHeight="60.0" prefWidth="310.0" promptText="Confirm Password" styleClass="password-field">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </PasswordField>
+                  <ImageView fx:id="confirmPasswordStatus" fitHeight="36.0" fitWidth="34.0" layoutX="377.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </Pane>
             <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" graphicTextGap="15.0" layoutX="638.0" layoutY="515.0" onMouseClicked="#nextButtonClicked" prefHeight="50.0" prefWidth="180.0" text="NEXT">
                <font>
                   <Font size="18.0" />
@@ -104,8 +120,8 @@
                   </ImageView>
                </graphic>
                <styleClass>
-                  <String fx:value="login-button" />
-                  <String fx:value="login-button-hover" />
+                  <String fx:value="next-button" />
+                  <String fx:value="next-button-hover" />
                </styleClass>
             </Label>
             <Label graphicTextGap="15.0" layoutX="33.0" layoutY="515.0" onMouseClicked="#backToLogin" prefHeight="50.0" prefWidth="180.0" text="BACK">
@@ -124,21 +140,7 @@
                   <String fx:value="login-button-hover" />
                </styleClass>
             </Label>
-            <Pane fx:id="confirmPasswordPane" layoutX="213.0" layoutY="309.0" prefHeight="70.0" prefWidth="425.0" styleClass="password-pane">
-               <children>
-                  <ImageView fitHeight="36.0" fitWidth="34.0" layoutX="15.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/confirm_password.png" />
-                     </image>
-                  </ImageView>
-                  <PasswordField fx:id="confirmPasswordField" layoutX="61.0" layoutY="5.0" onKeyTyped="#isConfirmPasswordSame" prefHeight="60.0" prefWidth="310.0" promptText="Confirm Password" styleClass="password-field">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </PasswordField>
-                  <ImageView fx:id="confirmPasswordStatus" fitHeight="36.0" fitWidth="34.0" layoutX="377.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true" />
-               </children>
-            </Pane>
          </children></Pane>
+      <ScrollPane fx:id="personalDetailsPane" hbarPolicy="NEVER" layoutX="244.0" layoutY="139.0" prefHeight="590.0" prefWidth="850.0" visible="false" />
     </children>
 </Pane>

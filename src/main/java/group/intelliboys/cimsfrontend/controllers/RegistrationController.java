@@ -5,9 +5,7 @@ import group.intelliboys.cimsfrontend.models.user.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Tooltip;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -21,6 +19,9 @@ import java.time.Duration;
 import java.util.Objects;
 
 public class RegistrationController {
+
+    @FXML
+    private Slider registrationPhase;
 
     // ======================== USERNAME =========================
     @FXML
@@ -60,6 +61,14 @@ public class RegistrationController {
 
     @FXML
     private Pane usernameExistsPane;
+
+    @FXML
+    private Pane authenticationPane;
+
+    @FXML
+    private ScrollPane personalDetailsPane;
+
+    // ======================================== AUTHENTICATION FORM ========================================
 
     public boolean isUsernameValid() {
         String username = usernameField.getText();
@@ -191,18 +200,26 @@ public class RegistrationController {
         }
     }
 
-    public void nextButtonClicked() {
+    // ======================================================================================================
+
+    // ========================================= PERSONAL DETAILS ===========================================
+
+    // ======================================================================================================
+
+    public void nextButtonClicked() throws IOException {
         String username = usernameField.getText();
         String password = passwordField.getText();
 
         if (isUsernameValid() && isPasswordValid() && isConfirmPasswordSame() && !isUsernameExists()) {
-            User registeringUser = User.builder()
-                    .username(username)
-                    .password(password)
-                    .build();
+            FXMLLoader loader = new FXMLLoader(App.class.getResource("views/registration-personal-details-pane-view.fxml"));
+            Pane pane = loader.load();
 
-            System.out.println(registeringUser.getUsername()+"\n" +
-                    registeringUser.getPassword());
+            authenticationPane.setVisible(false);
+            personalDetailsPane.setContent(pane);
+            personalDetailsPane.setVisible(true);
+
+            registrationPhase.setValue(50);
+
         }
 
     }

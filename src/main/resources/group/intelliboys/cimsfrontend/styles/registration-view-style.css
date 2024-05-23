@@ -1,8 +1,4 @@
 
-.parent-pane {
-    -fx-background-color: linear-gradient(to left, #4b4be3, #202021);
-}
-
 .content-pane {
     -fx-border-width: 1px;
     -fx-border-color: gray;
@@ -35,23 +31,13 @@
     -fx-text-fill: red;
 }
 
-.login-button {
+.next-button {
     -fx-border-width: 1;
     -fx-border-color: gray;
     -fx-border-radius: 20;
 }
 
-.login-button-hover:hover {
+.next-button-hover:hover {
     -fx-border-width: 2;
     -fx-border-color: rgb(36, 76, 230);
-}
-
-.register:hover {
-    -fx-text-fill: red;
-}
-
-.right-pane {
-    -fx-border-width: 1px;
-    -fx-border-color: gray;
-    -fx-background-color: white;
 }
