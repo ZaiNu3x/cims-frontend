@@ -1,16 +1,24 @@
 package group.intelliboys.cimsfrontend.controllers;
 
 import group.intelliboys.cimsfrontend.App;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Tooltip;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
+import javafx.stage.FileChooser;
 
+import javax.imageio.ImageIO;
+import javax.imageio.stream.ImageInputStream;
+import javax.imageio.stream.ImageInputStreamImpl;
+import java.awt.image.BufferedImage;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.Period;
@@ -113,11 +121,18 @@ public class RegistrationPersonalDetailsController implements Initializable {
 
     // ===========================================================
 
+    @FXML
+    private Circle profilePicPane;
+
+    @FXML
+    private Button selectProfilePic;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         genderField.getItems().addAll("Male", "Female");
         cityField.getItems().addAll("NCR - Taguig City", "NCR - Makati City");
+        profilePicPane.setFill(new ImagePattern(new Image(Objects.requireNonNull(App.class.getResource("images/profile-picture.png")).toString())));
     }
 
     public boolean isLastnameValid() {
@@ -346,6 +361,18 @@ public class RegistrationPersonalDetailsController implements Initializable {
 
     public void barangayChangedValue() {
         isBarangayValid();
+    }
+
+    public void selectProfilePicButtonClicked() throws IOException {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files", "*.jpg", "*.png"));
+        File selectedImageFile = fileChooser.showOpenDialog(App.primaryStage);
+
+        BufferedImage bufferedImage = ImageIO.read(selectedImageFile);
+
+        Image image = SwingFXUtils.toFXImage(bufferedImage, null);
+
+        profilePicPane.setFill(new ImagePattern(image));
     }
 
     private boolean isFormValid() {

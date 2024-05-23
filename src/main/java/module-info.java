@@ -5,6 +5,8 @@ module group.intelliboys.cimsfrontend {
     requires com.google.gson;
     requires com.nimbusds.jose.jwt;
     requires lombok;
+    requires java.desktop;
+    requires javafx.swing;
 
     opens group.intelliboys.cimsfrontend to javafx.fxml;
     opens group.intelliboys.cimsfrontend.models to com.google.gson;
