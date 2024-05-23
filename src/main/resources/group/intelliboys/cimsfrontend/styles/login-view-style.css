@@ -41,7 +41,7 @@
     -fx-border-radius: 20;
 }
 
-.login-button-hover:hover {
+.login-button-hovered:hover {
     -fx-border-width: 2;
     -fx-border-color: rgb(36, 76, 230);
 }

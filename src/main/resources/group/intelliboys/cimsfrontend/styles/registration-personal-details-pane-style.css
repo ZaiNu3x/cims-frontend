@@ -108,14 +108,3 @@
     -fx-border-radius: 30;
     -fx-background-color: transparent;
 }
-
-.next-button {
-    -fx-border-width: 1;
-    -fx-border-color: gray;
-    -fx-border-radius: 20;
-}
-
-.next-button-hover:hover {
-    -fx-border-width: 2;
-    -fx-border-color: rgb(36, 76, 230);
-}

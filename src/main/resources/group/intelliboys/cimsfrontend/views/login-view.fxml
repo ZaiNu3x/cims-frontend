@@ -94,7 +94,7 @@
                </graphic>
                <styleClass>
                   <String fx:value="login-button" />
-                  <String fx:value="login-button-hover" />
+                  <String fx:value="login-button-hovered" />
                </styleClass>
             </Label>
             <Label layoutX="278.0" layoutY="644.0" onMouseClicked="#registerButtonClicked" styleClass="register" text="REGISTER">
