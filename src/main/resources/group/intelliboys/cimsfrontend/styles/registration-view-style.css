@@ -27,6 +27,28 @@
     -fx-background-color: none;
 }
 
+.next-button {
+    -fx-border-width: 1;
+    -fx-border-color: gray;
+    -fx-border-radius: 20;
+}
+
+.next-button-hovered:hover {
+    -fx-border-width: 2;
+    -fx-border-color: rgb(36, 76, 230);
+}
+
+.back-button {
+    -fx-border-width: 1;
+    -fx-border-color: gray;
+    -fx-border-radius: 20;
+}
+
+.back-button-hovered:hover {
+    -fx-border-width: 2;
+    -fx-border-color: rgb(36, 76, 230);
+}
+
 .forgot-password:hover {
     -fx-text-fill: red;
 }

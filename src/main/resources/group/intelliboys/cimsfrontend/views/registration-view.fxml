@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.ScrollPane?>
@@ -118,6 +119,10 @@
                      </image>
                   </ImageView>
                </graphic>
+               <styleClass>
+                  <String fx:value="next-button" />
+                  <String fx:value="next-button-hovered" />
+               </styleClass>
             </Label>
             <Label graphicTextGap="15.0" layoutX="33.0" layoutY="515.0" onMouseClicked="#backToLogin" prefHeight="50.0" prefWidth="180.0" text="BACK">
                <font>
@@ -130,6 +135,10 @@
                      </image>
                   </ImageView>
                </graphic>
+               <styleClass>
+                  <String fx:value="back-button" />
+                  <String fx:value="back-button-hovered" />
+               </styleClass>
             </Label>
          </children></Pane>
       <ScrollPane fx:id="personalDetailsPane" hbarPolicy="NEVER" layoutX="244.0" layoutY="139.0" prefHeight="590.0" prefWidth="850.0" visible="false" />

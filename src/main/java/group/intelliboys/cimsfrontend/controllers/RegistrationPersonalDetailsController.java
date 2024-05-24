@@ -13,20 +13,18 @@ import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 
 import javax.imageio.ImageIO;
-import javax.imageio.stream.ImageInputStream;
-import javax.imageio.stream.ImageInputStreamImpl;
 import java.awt.image.BufferedImage;
-import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.net.URL;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.List;
-import java.util.Objects;
-import java.util.ResourceBundle;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.*;
 
 public class RegistrationPersonalDetailsController implements Initializable {
 
@@ -127,9 +125,13 @@ public class RegistrationPersonalDetailsController implements Initializable {
     @FXML
     private Button selectProfilePic;
 
+    private String formId;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        formId = generateFormId();
+
         genderField.getItems().addAll("Male", "Female");
         cityField.getItems().addAll("NCR - Taguig City", "NCR - Makati City");
         profilePicPane.setFill(new ImagePattern(new Image(Objects.requireNonNull(App.class.getResource("images/profile-picture.png")).toString())));
@@ -138,10 +140,12 @@ public class RegistrationPersonalDetailsController implements Initializable {
     public boolean isLastnameValid() {
         String lastname = lastnameField.getText();
 
+        /*
         Pattern pattern = Pattern.compile("[^a-zA-Z0-9\\\\s]");
         Matcher matcher = pattern.matcher(lastname);
+         */
 
-        if (lastname.length() < 3 || lastname.length() > 30 || matcher.find()) {
+        if (lastname.length() < 3 || lastname.length() > 30) {
             lastnamePane.setStyle("-fx-border-width: 2; -fx-border-color: red;");
             lastnameStatus.setImage(new Image(Objects.requireNonNull(App.class.getResource("images/invalid.png")).toString()));
             lastnameField.setTooltip(new Tooltip("Invalid Lastname!"));
@@ -157,10 +161,12 @@ public class RegistrationPersonalDetailsController implements Initializable {
     public boolean isFirstnameValid() {
         String firstname = firstnameField.getText();
 
+        /*
         Pattern pattern = Pattern.compile("[^a-zA-Z0-9\\\\s]");
         Matcher matcher = pattern.matcher(firstname);
+         */
 
-        if (firstname.length() < 3 || firstname.length() > 30 || matcher.find()) {
+        if (firstname.length() < 3 || firstname.length() > 30) {
             firstnamePane.setStyle("-fx-border-width: 2; -fx-border-color: red;");
             firstnameStatus.setImage(new Image(Objects.requireNonNull(App.class.getResource("images/invalid.png")).toString()));
             firstnameField.setTooltip(new Tooltip("Invalid Firstname!"));
@@ -176,10 +182,12 @@ public class RegistrationPersonalDetailsController implements Initializable {
     public boolean isMiddlenameValid() {
         String firstname = middlenameField.getText();
 
+        /*
         Pattern pattern = Pattern.compile("[^a-zA-Z0-9\\\\s]");
         Matcher matcher = pattern.matcher(firstname);
+         */
 
-        if (firstname.length() < 3 || firstname.length() > 30 || matcher.find()) {
+        if (firstname.length() < 3 || firstname.length() > 30) {
             middlenamePane.setStyle("-fx-border-width: 2; -fx-border-color: red;");
             middlenameStatus.setImage(new Image(Objects.requireNonNull(App.class.getResource("images/invalid.png")).toString()));
             middlenameField.setTooltip(new Tooltip("Invalid Middlename!"));
@@ -233,6 +241,41 @@ public class RegistrationPersonalDetailsController implements Initializable {
             emailStatus.setImage(new Image(Objects.requireNonNull(App.class.getResource("images/invalid.png")).toString()));
             emailField.setTooltip(new Tooltip("Invalid Email!"));
             return true;
+        }
+    }
+
+    private boolean isEmailExists() {
+        String email = emailField.getText();
+
+        HttpClient httpClient = HttpClient.newHttpClient();
+
+        System.out.println(formId);
+
+        try {
+            HttpRequest request = HttpRequest.newBuilder(new URI("http://localhost:8080/api/v1/user/registration/find/email/exists/" + email + "/" + formId))
+                    .GET()
+                    .header("Content-Type", "application/json")
+                    .timeout(Duration.ofSeconds(30))
+                    .build();
+
+            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+            boolean isExists = Boolean.parseBoolean(response.body());
+
+            if (!isExists) {
+                emailPane.setStyle("-fx-border-width: 2; -fx-border-color: rgb(36, 76, 230);");
+                emailStatus.setImage(new Image(Objects.requireNonNull(App.class.getResource("images/check.png")).toString()));
+                emailField.setTooltip(null);
+                return false;
+            } else {
+                emailPane.setStyle("-fx-border-width: 2; -fx-border-color: red;");
+                emailStatus.setImage(new Image(Objects.requireNonNull(App.class.getResource("images/invalid.png")).toString()));
+                emailField.setTooltip(new Tooltip("Email already exists!"));
+                return true;
+            }
+
+        } catch (Exception e) {
+            return false;
         }
     }
 
@@ -366,18 +409,24 @@ public class RegistrationPersonalDetailsController implements Initializable {
     public void selectProfilePicButtonClicked() throws IOException {
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files", "*.jpg", "*.png"));
+
         File selectedImageFile = fileChooser.showOpenDialog(App.primaryStage);
 
-        BufferedImage bufferedImage = ImageIO.read(selectedImageFile);
-
-        Image image = SwingFXUtils.toFXImage(bufferedImage, null);
-
-        profilePicPane.setFill(new ImagePattern(image));
+        if (selectedImageFile != null) {
+            BufferedImage bufferedImage = ImageIO.read(selectedImageFile);
+            Image image = SwingFXUtils.toFXImage(bufferedImage, null);
+            profilePicPane.setFill(new ImagePattern(image));
+            profilePicPane.setStyle("-fx-stroke-width: 2; -fx-stroke: rgb(36, 76, 230);");
+        } else {
+            profilePicPane.setFill(null);
+            profilePicPane.setStyle("-fx-stroke-width: 2; -fx-stroke: red;");
+        }
     }
 
     private boolean isFormValid() {
         return isLastnameValid() && isFirstnameValid() && isMiddlenameValid() && isGenderValid()
-                && isBirthDateValid() && isEmailValid() && isHouseNumValid() && isCityValid() && isBarangayValid();
+                && isBirthDateValid() && isEmailValid() && isHouseNumValid() && isCityValid()
+                && isBarangayValid() && !isEmailExists();
     }
 
     public void nextButtonClicked() {
@@ -386,5 +435,20 @@ public class RegistrationPersonalDetailsController implements Initializable {
         } else {
             System.out.println("Invalid!");
         }
+    }
+
+    private String generateFormId() {
+        Random random = new Random();
+        StringBuilder formId = new StringBuilder();
+
+        Collection<Integer> randomNumbers = new ArrayList<>();
+
+        for (int i = 0; i < 6; i++) {
+            int randomNum = random.nextInt(0, 9);
+
+            formId.append(randomNum);
+        }
+
+        return new String(formId);
     }
 }
