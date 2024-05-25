@@ -1,10 +1,10 @@
 package group.intelliboys.cimsfrontend.controllers;
 
 import group.intelliboys.cimsfrontend.App;
-import group.intelliboys.cimsfrontend.models.user.User;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -14,6 +14,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
+import javax.swing.*;
 import java.net.URI;
 import java.net.URL;
 import java.net.http.HttpClient;
@@ -81,11 +82,16 @@ public class OtpDialogController implements Initializable {
                 boolean isExists = Boolean.parseBoolean(response.body());
 
                 if (isExists) {
-                    System.out.println(isExists);
-                } else {
-                    System.out.println("Invalid OTP!");
-                }
+                    FXMLLoader loader = new FXMLLoader(App.class.getResource("views/registration-userinfo-review-view.fxml"));
+                    Pane pane = loader.load();
 
+                    RegistrationController.personalDetailsPaneRef.setContent(pane);
+                    RegistrationController.personalDetailsPaneRef.setVisible(true);
+
+                    JOptionPane.showMessageDialog(null, "VALID OTP!");
+                } else {
+                    JOptionPane.showMessageDialog(null, "INVALID OTP!");
+                }
             } catch (Exception e) {
                 System.out.println(e);
             }

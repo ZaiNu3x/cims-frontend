@@ -4,6 +4,7 @@ import group.intelliboys.cimsfrontend.App;
 import group.intelliboys.cimsfrontend.models.user.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -12,16 +13,18 @@ import javafx.scene.layout.Pane;
 
 import java.io.IOException;
 import java.net.URI;
+import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.util.Objects;
+import java.util.ResourceBundle;
 
-public class RegistrationController {
+public class RegistrationController implements Initializable {
 
     @FXML
-    private Slider registrationPhase;
+    public static Slider registrationPhase;
 
     // ======================== USERNAME =========================
     @FXML
@@ -69,6 +72,10 @@ public class RegistrationController {
     private ScrollPane personalDetailsPane;
 
     public static User registeringUser = new User();
+
+    public static ScrollPane personalDetailsPaneRef;
+
+    public static Slider sliderRef;
 
     // ======================================== AUTHENTICATION FORM ========================================
 
@@ -222,9 +229,6 @@ public class RegistrationController {
             authenticationPane.setVisible(false);
             personalDetailsPane.setContent(pane);
             personalDetailsPane.setVisible(true);
-
-            registrationPhase.setValue(50);
-
         }
     }
 
@@ -234,5 +238,11 @@ public class RegistrationController {
 
         App.primaryStage.setScene(scene);
         App.primaryStage.centerOnScreen();
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        personalDetailsPaneRef = personalDetailsPane;
+        sliderRef = registrationPhase;
     }
 }

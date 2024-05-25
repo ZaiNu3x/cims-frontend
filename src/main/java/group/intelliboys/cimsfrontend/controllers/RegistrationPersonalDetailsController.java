@@ -128,7 +128,7 @@ public class RegistrationPersonalDetailsController implements Initializable {
     private Button selectProfilePic;
 
     public static String formId;
-    ByteArrayOutputStream byteArrayOutputStream;
+    private ByteArrayOutputStream byteArrayOutputStream;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -415,7 +415,9 @@ public class RegistrationPersonalDetailsController implements Initializable {
             BufferedImage bufferedImage = ImageIO.read(selectedImageFile);
             Image image = SwingFXUtils.toFXImage(bufferedImage, null);
             byteArrayOutputStream = new ByteArrayOutputStream();
-            ImageIO.write(bufferedImage, null, byteArrayOutputStream);
+            ImageIO.write(bufferedImage, "png", byteArrayOutputStream);
+
+            RegistrationController.registeringUser.setProfilePic(byteArrayOutputStream.toByteArray());
 
             profilePicPane.setFill(new ImagePattern(image));
             profilePicPane.setStyle("-fx-stroke-width: 2; -fx-stroke: rgb(36, 76, 230);");
@@ -441,6 +443,7 @@ public class RegistrationPersonalDetailsController implements Initializable {
             RegistrationController.registeringUser.setBirthDate(birthDateField.getValue());
             RegistrationController.registeringUser.setEmail(emailField.getText());
             RegistrationController.registeringUser.setAge((byte) Period.between(birthDateField.getValue(), LocalDate.now()).getYears());
+            RegistrationController.registeringUser.setRole("ROLE_ADMIN");
             RegistrationController.registeringUser.setProfilePic(byteArrayOutputStream.toByteArray());
 
             StringBuilder address = new StringBuilder();
