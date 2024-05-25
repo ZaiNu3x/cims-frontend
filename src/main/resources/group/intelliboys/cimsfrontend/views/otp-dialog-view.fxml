@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ButtonType?>
+<?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<DialogPane stylesheets="@../styles/otp-dialog-view-style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group.intelliboys.cimsfrontend.controllers.OtpDialogController">
+   <content>
+      <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="226.0" prefWidth="447.0">
+         <children>
+            <Label fx:id="timerLabel" layoutX="383.0" layoutY="14.0" text="0">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="resendOtpLabel" layoutX="53.0" layoutY="192.0" text="RESEND OTP">
+               <font>
+                  <Font size="14.0" />
+               </font></Label>
+            <ImageView fitHeight="74.0" fitWidth="107.0" layoutX="187.0" layoutY="38.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/otp.png" />
+               </image>
+            </ImageView>
+            <Pane fx:id="otpPane" layoutX="31.0" layoutY="103.0" prefHeight="70.0" prefWidth="386.0" styleClass="otp-pane">
+               <children>
+                  <TextField fx:id="otpField" layoutX="14.0" layoutY="5.0" onKeyTyped="#validateOtp" prefHeight="60.0" prefWidth="310.0" promptText="OTP Code" styleClass="otp-field">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </TextField>
+                  <ImageView fx:id="otpStatus" fitHeight="36.0" fitWidth="34.0" layoutX="334.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </Pane>
+         </children>
+      </Pane>
+   </content>
+   <buttonTypes>
+      <ButtonType fx:constant="CANCEL" />
+   </buttonTypes>
+</DialogPane>

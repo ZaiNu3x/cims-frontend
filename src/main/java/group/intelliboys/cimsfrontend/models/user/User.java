@@ -19,6 +19,7 @@ public class User {
     private String middleName;
     private String sex;
     private LocalDate birthDate;
+    private String email;
     private byte age;
     private String address;
     private byte[] profilePic;

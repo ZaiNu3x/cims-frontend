@@ -68,6 +68,8 @@ public class RegistrationController {
     @FXML
     private ScrollPane personalDetailsPane;
 
+    public static User registeringUser = new User();
+
     // ======================================== AUTHENTICATION FORM ========================================
 
     public boolean isUsernameValid() {
@@ -211,6 +213,9 @@ public class RegistrationController {
         String password = passwordField.getText();
 
         if (isUsernameValid() && isPasswordValid() && isConfirmPasswordSame() && !isUsernameExists()) {
+            registeringUser.setUsername(username);
+            registeringUser.setPassword(password);
+
             FXMLLoader loader = new FXMLLoader(App.class.getResource("views/registration-personal-details-pane-view.fxml"));
             Pane pane = loader.load();
 
@@ -221,7 +226,6 @@ public class RegistrationController {
             registrationPhase.setValue(50);
 
         }
-
     }
 
     public void backToLogin() throws IOException {

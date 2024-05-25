@@ -3,6 +3,7 @@ package group.intelliboys.cimsfrontend.controllers;
 import group.intelliboys.cimsfrontend.App;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -14,6 +15,7 @@ import javafx.stage.FileChooser;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
@@ -125,8 +127,8 @@ public class RegistrationPersonalDetailsController implements Initializable {
     @FXML
     private Button selectProfilePic;
 
-    private String formId;
-
+    public static String formId;
+    ByteArrayOutputStream byteArrayOutputStream;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -246,10 +248,7 @@ public class RegistrationPersonalDetailsController implements Initializable {
 
     private boolean isEmailExists() {
         String email = emailField.getText();
-
         HttpClient httpClient = HttpClient.newHttpClient();
-
-        System.out.println(formId);
 
         try {
             HttpRequest request = HttpRequest.newBuilder(new URI("http://localhost:8080/api/v1/user/registration/find/email/exists/" + email + "/" + formId))
@@ -415,6 +414,9 @@ public class RegistrationPersonalDetailsController implements Initializable {
         if (selectedImageFile != null) {
             BufferedImage bufferedImage = ImageIO.read(selectedImageFile);
             Image image = SwingFXUtils.toFXImage(bufferedImage, null);
+            byteArrayOutputStream = new ByteArrayOutputStream();
+            ImageIO.write(bufferedImage, null, byteArrayOutputStream);
+
             profilePicPane.setFill(new ImagePattern(image));
             profilePicPane.setStyle("-fx-stroke-width: 2; -fx-stroke: rgb(36, 76, 230);");
         } else {
@@ -429,9 +431,34 @@ public class RegistrationPersonalDetailsController implements Initializable {
                 && isBarangayValid() && !isEmailExists();
     }
 
-    public void nextButtonClicked() {
+    public void nextButtonClicked() throws IOException {
         if (isFormValid()) {
-            System.out.println("Valid!");
+            RegistrationController.registeringUser.setLastName(lastnameField.getText());
+            RegistrationController.registeringUser.setFirstName(firstnameField.getText());
+            RegistrationController.registeringUser.setLastName(lastnameField.getText());
+            RegistrationController.registeringUser.setMiddleName(middlenameField.getText());
+            RegistrationController.registeringUser.setSex(genderField.getValue());
+            RegistrationController.registeringUser.setBirthDate(birthDateField.getValue());
+            RegistrationController.registeringUser.setEmail(emailField.getText());
+            RegistrationController.registeringUser.setAge((byte) Period.between(birthDateField.getValue(), LocalDate.now()).getYears());
+            RegistrationController.registeringUser.setProfilePic(byteArrayOutputStream.toByteArray());
+
+            StringBuilder address = new StringBuilder();
+
+            address.append(houseNumField.getText() + ", ");
+            address.append(barangayField.getValue() + ", ");
+            address.append(cityField.getValue());
+
+            RegistrationController.registeringUser.setAddress(new String(address));
+
+            FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("views/otp-dialog-view.fxml"));
+            DialogPane otpPane = fxmlLoader.load();
+
+            Dialog<String> otpDialog = new Dialog<>();
+            otpDialog.setDialogPane(otpPane);
+            otpDialog.setTitle("OTP Authentication");
+            otpDialog.showAndWait();
+
         } else {
             System.out.println("Invalid!");
         }
