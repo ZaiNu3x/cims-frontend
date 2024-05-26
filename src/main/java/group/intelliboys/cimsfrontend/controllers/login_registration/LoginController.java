@@ -1,4 +1,4 @@
-package group.intelliboys.cimsfrontend.controllers;
+package group.intelliboys.cimsfrontend.controllers.login_registration;
 
 import com.google.gson.Gson;
 import group.intelliboys.cimsfrontend.App;
@@ -196,6 +196,7 @@ public class LoginController implements Initializable {
                 });
 
                 thread.start();
+                System.out.println(e);
             }
         } else {
             System.out.println("Invalid!");

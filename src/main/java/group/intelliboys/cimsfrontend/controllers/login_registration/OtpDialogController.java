@@ -1,4 +1,4 @@
-package group.intelliboys.cimsfrontend.controllers;
+package group.intelliboys.cimsfrontend.controllers.login_registration;
 
 import group.intelliboys.cimsfrontend.App;
 import javafx.animation.KeyFrame;

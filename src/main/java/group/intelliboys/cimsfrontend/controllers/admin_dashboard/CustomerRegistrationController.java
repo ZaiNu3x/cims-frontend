@@ -1,9 +1,11 @@
-package group.intelliboys.cimsfrontend.controllers;
+package group.intelliboys.cimsfrontend.controllers.admin_dashboard;
 
 import group.intelliboys.cimsfrontend.App;
+import group.intelliboys.cimsfrontend.controllers.login_registration.RegistrationController;
 import javafx.embed.swing.SwingFXUtils;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -18,18 +20,14 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
 import java.net.URL;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.time.Duration;
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.*;
+import java.util.List;
+import java.util.Objects;
+import java.util.ResourceBundle;
 
-public class RegistrationPersonalDetailsController implements Initializable {
-
+public class CustomerRegistrationController implements Initializable {
     // ======================== LASTNAME =========================
     @FXML
     private Pane lastnamePane;
@@ -125,18 +123,26 @@ public class RegistrationPersonalDetailsController implements Initializable {
     private Circle profilePicPane;
 
     @FXML
-    private Button selectProfilePic;
+    private Button addBtn;
 
-    public static String formId;
     private ByteArrayOutputStream byteArrayOutputStream;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        formId = generateFormId();
-
         genderField.getItems().addAll("Male", "Female");
         cityField.getItems().addAll("NCR - Taguig City", "NCR - Makati City");
         profilePicPane.setFill(new ImagePattern(new Image(Objects.requireNonNull(App.class.getResource("images/profile-picture.png")).toString())));
+
+        CrudController.dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+
+        addBtn = (Button) CrudController.dialog.getDialogPane().lookupButton(ButtonType.OK);
+
+        addBtn.addEventFilter(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                System.out.println("Hello World!");
+            }
+        });
     }
 
     public boolean isLastnameValid() {
@@ -246,37 +252,6 @@ public class RegistrationPersonalDetailsController implements Initializable {
         }
     }
 
-    private boolean isEmailExists() {
-        String email = emailField.getText();
-        HttpClient httpClient = HttpClient.newHttpClient();
-
-        try {
-            HttpRequest request = HttpRequest.newBuilder(new URI("http://localhost:8080/api/v1/user/registration/find/email/exists/" + email + "/" + formId))
-                    .GET()
-                    .header("Content-Type", "application/json")
-                    .timeout(Duration.ofSeconds(30))
-                    .build();
-
-            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-
-            boolean isExists = Boolean.parseBoolean(response.body());
-
-            if (!isExists) {
-                emailPane.setStyle("-fx-border-width: 2; -fx-border-color: rgb(36, 76, 230);");
-                emailStatus.setImage(new Image(Objects.requireNonNull(App.class.getResource("images/check.png")).toString()));
-                emailField.setTooltip(null);
-                return false;
-            } else {
-                emailPane.setStyle("-fx-border-width: 2; -fx-border-color: red;");
-                emailStatus.setImage(new Image(Objects.requireNonNull(App.class.getResource("images/invalid.png")).toString()));
-                emailField.setTooltip(new Tooltip("Email already exists!"));
-                return true;
-            }
-
-        } catch (Exception e) {
-            return false;
-        }
-    }
 
     public boolean isHouseNumValid() {
         String houseNum = houseNumField.getText();
@@ -430,55 +405,10 @@ public class RegistrationPersonalDetailsController implements Initializable {
     private boolean isFormValid() {
         return isLastnameValid() && isFirstnameValid() && isMiddlenameValid() && isGenderValid()
                 && isBirthDateValid() && isEmailValid() && isHouseNumValid() && isCityValid()
-                && isBarangayValid() && !isEmailExists();
+                && isBarangayValid();
     }
 
-    public void nextButtonClicked() throws IOException {
-        if (isFormValid()) {
-            RegistrationController.registeringUser.setLastName(lastnameField.getText());
-            RegistrationController.registeringUser.setFirstName(firstnameField.getText());
-            RegistrationController.registeringUser.setLastName(lastnameField.getText());
-            RegistrationController.registeringUser.setMiddleName(middlenameField.getText());
-            RegistrationController.registeringUser.setSex(genderField.getValue());
-            RegistrationController.registeringUser.setBirthDate(birthDateField.getValue());
-            RegistrationController.registeringUser.setEmail(emailField.getText());
-            RegistrationController.registeringUser.setAge((byte) Period.between(birthDateField.getValue(), LocalDate.now()).getYears());
-            RegistrationController.registeringUser.setRole("ROLE_ADMIN");
-            RegistrationController.registeringUser.setProfilePic(byteArrayOutputStream.toByteArray());
+    public void addBtnClicked() {
 
-            StringBuilder address = new StringBuilder();
-
-            address.append(houseNumField.getText() + ", ");
-            address.append(barangayField.getValue() + ", ");
-            address.append(cityField.getValue());
-
-            RegistrationController.registeringUser.setAddress(new String(address));
-
-            FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("views/otp-dialog-view.fxml"));
-            DialogPane otpPane = fxmlLoader.load();
-
-            Dialog<String> otpDialog = new Dialog<>();
-            otpDialog.setDialogPane(otpPane);
-            otpDialog.setTitle("OTP Authentication");
-            otpDialog.showAndWait();
-
-        } else {
-            System.out.println("Invalid!");
-        }
-    }
-
-    private String generateFormId() {
-        Random random = new Random();
-        StringBuilder formId = new StringBuilder();
-
-        Collection<Integer> randomNumbers = new ArrayList<>();
-
-        for (int i = 0; i < 6; i++) {
-            int randomNum = random.nextInt(0, 9);
-
-            formId.append(randomNum);
-        }
-
-        return new String(formId);
     }
 }

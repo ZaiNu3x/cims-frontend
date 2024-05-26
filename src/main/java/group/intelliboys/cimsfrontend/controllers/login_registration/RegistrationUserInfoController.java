@@ -1,9 +1,8 @@
-package group.intelliboys.cimsfrontend.controllers;
+package group.intelliboys.cimsfrontend.controllers.login_registration;
 
 import com.google.gson.Gson;
 import group.intelliboys.cimsfrontend.App;
 import group.intelliboys.cimsfrontend.models.user.TmpUser;
-import group.intelliboys.cimsfrontend.models.user.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
