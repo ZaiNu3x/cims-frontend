@@ -8,15 +8,17 @@ module group.intelliboys.cimsfrontend {
     requires java.desktop;
     requires javafx.swing;
     requires java.base;
+    requires com.fasterxml.jackson.databind;
 
     opens group.intelliboys.cimsfrontend to javafx.fxml;
     opens group.intelliboys.cimsfrontend.models to com.google.gson;
     opens group.intelliboys.cimsfrontend.models.user to com.google.gson;
     opens group.intelliboys.cimsfrontend.controllers.login_registration to javafx.fxml;
     opens group.intelliboys.cimsfrontend.controllers.admin_dashboard to javafx.fxml;
-    opens group.intelliboys.cimsfrontend.models.customer to javafx.base;
+    opens group.intelliboys.cimsfrontend.models.customer to javafx.base, com.fasterxml.jackson.databind;
     exports group.intelliboys.cimsfrontend;
     exports group.intelliboys.cimsfrontend.controllers.login_registration;
     exports group.intelliboys.cimsfrontend.controllers.admin_dashboard;
     exports group.intelliboys.cimsfrontend.models.user to com.google.gson;
+    exports group.intelliboys.cimsfrontend.models.customer to com.fasterxml.jackson.databind;
 }

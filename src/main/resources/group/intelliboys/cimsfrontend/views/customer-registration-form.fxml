@@ -95,7 +95,7 @@
                   <ComboBox fx:id="barangayField" layoutX="28.0" layoutY="5.0" onAction="#barangayChangedValue" prefHeight="60.0" prefWidth="371.0" promptText="Barangay" styleClass="barangay-field" />
                </children>
             </Pane>
-            <Button fx:id="addBtn" layoutX="739.0" layoutY="559.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="163.0" text="ADD">
+            <Button fx:id="addBtn" layoutX="739.0" layoutY="559.0" mnemonicParsing="false" onAction="#addBtnClicked" prefHeight="47.0" prefWidth="163.0" text="ADD">
                <graphic>
                   <ImageView fitHeight="29.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                      <image>

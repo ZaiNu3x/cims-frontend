@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.time.LocalDate;
 
 @Data
@@ -12,13 +11,14 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Builder
 public class Customer {
+    private Integer id;
     private String lastName;
     private String firstName;
     private String middleName;
     private String sex;
-    private LocalDate birthDate;
+    private String birthDate;
     private byte age;
-    private String email;
     private String address;
+    private String email;
     private byte[] profilePic;
 }

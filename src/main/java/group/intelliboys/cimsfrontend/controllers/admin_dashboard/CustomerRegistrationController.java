@@ -1,10 +1,12 @@
 package group.intelliboys.cimsfrontend.controllers.admin_dashboard;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import group.intelliboys.cimsfrontend.App;
+import group.intelliboys.cimsfrontend.CrudOperation;
 import group.intelliboys.cimsfrontend.controllers.login_registration.RegistrationController;
+import group.intelliboys.cimsfrontend.models.AuthenticationTokenHolder;
+import group.intelliboys.cimsfrontend.models.customer.Customer;
 import javafx.embed.swing.SwingFXUtils;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -133,16 +135,47 @@ public class CustomerRegistrationController implements Initializable {
         cityField.getItems().addAll("NCR - Taguig City", "NCR - Makati City");
         profilePicPane.setFill(new ImagePattern(new Image(Objects.requireNonNull(App.class.getResource("images/profile-picture.png")).toString())));
 
-        CrudController.dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+        if (CrudController.crudOperation.equals("add")) {
+            addBtn.setText("ADD");
+        } else if (CrudController.crudOperation.equals("update")) {
+            Customer selectionModel = CrudController.selectedCustomer;
 
-        addBtn = (Button) CrudController.dialog.getDialogPane().lookupButton(ButtonType.OK);
+            lastnameField.setText(selectionModel.getLastName());
+            firstnameField.setText(selectionModel.getFirstName());
+            middlenameField.setText(selectionModel.getMiddleName());
+            genderField.setValue(selectionModel.getSex());
+            birthDateField.setValue(LocalDate.parse(selectionModel.getBirthDate()));
+            emailField.setText(selectionModel.getEmail());
 
-        addBtn.addEventFilter(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                System.out.println("Hello World!");
+
+            if (isFormValid()) {
+                StringBuilder address = new StringBuilder();
+
+                address.append(houseNumField.getText() + ", ");
+                address.append(barangayField.getValue() + ", ");
+                address.append(cityField.getValue());
+
+                Customer customer = Customer.builder()
+                        .lastName(lastnameField.getText())
+                        .firstName(firstnameField.getText())
+                        .middleName(middlenameField.getText())
+                        .sex(genderField.getValue())
+                        .birthDate(birthDateField.getValue().toString())
+                        .profilePic(byteArrayOutputStream.toByteArray())
+                        .address(new String(address))
+                        .email(emailField.getText())
+                        .build();
+
+                try {
+                    System.out.println(CrudOperation.insertObjectFromDb("http://localhost:8080/api/v1/customer/add", AuthenticationTokenHolder.getToken(), customer));
+                } catch (JsonProcessingException e) {
+                    throw new RuntimeException(e);
+                }
+                CrudController.dialog.close();
             }
-        });
+
+            addBtn.setText("UPDATE");
+        }
     }
 
     public boolean isLastnameValid() {
@@ -408,7 +441,27 @@ public class CustomerRegistrationController implements Initializable {
                 && isBarangayValid();
     }
 
-    public void addBtnClicked() {
+    public void addBtnClicked() throws JsonProcessingException {
+        if (isFormValid()) {
+            StringBuilder address = new StringBuilder();
 
+            address.append(houseNumField.getText() + ", ");
+            address.append(barangayField.getValue() + ", ");
+            address.append(cityField.getValue());
+
+            Customer customer = Customer.builder()
+                    .lastName(lastnameField.getText())
+                    .firstName(firstnameField.getText())
+                    .middleName(middlenameField.getText())
+                    .sex(genderField.getValue())
+                    .birthDate(birthDateField.getValue().toString())
+                    .profilePic(byteArrayOutputStream.toByteArray())
+                    .address(new String(address))
+                    .email(emailField.getText())
+                    .build();
+
+            System.out.println(CrudOperation.insertObjectFromDb("http://localhost:8080/api/v1/customer/add", AuthenticationTokenHolder.getToken(), customer));
+            CrudController.dialog.close();
+        }
     }
 }

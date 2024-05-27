@@ -1,6 +1,7 @@
 package group.intelliboys.cimsfrontend.controllers.admin_dashboard;
 
 import group.intelliboys.cimsfrontend.App;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -20,8 +21,11 @@ public class AdminDashboardController implements Initializable {
 
     public static String crudOperationType;
 
+    public static ObservableList<Object> listOfObject;
+
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {}
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+    }
 
     public void showCustomersClicked() throws IOException {
         System.out.println("Show customers clicked!");

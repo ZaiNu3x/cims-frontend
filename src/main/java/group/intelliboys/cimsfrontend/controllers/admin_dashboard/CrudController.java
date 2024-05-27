@@ -1,20 +1,22 @@
 package group.intelliboys.cimsfrontend.controllers.admin_dashboard;
 
 import group.intelliboys.cimsfrontend.App;
+import group.intelliboys.cimsfrontend.CrudOperation;
+import group.intelliboys.cimsfrontend.models.AuthenticationTokenHolder;
 import group.intelliboys.cimsfrontend.models.customer.Customer;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import lombok.SneakyThrows;
 
 import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
-import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class CrudController implements Initializable {
@@ -25,10 +27,10 @@ public class CrudController implements Initializable {
     @FXML
     private TableView<Object> objectsTable;
 
-    private ObservableList<Object> listOfObject;
+    public static Dialog<ButtonType> dialog;
+    public static Customer selectedCustomer;
 
-    public static Dialog<String> dialog;
-
+    @SneakyThrows
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         String crudType = AdminDashboardController.crudOperationType;
@@ -36,13 +38,8 @@ public class CrudController implements Initializable {
         if (crudType.equals("Customers List")) {
             crudLbl.setText(crudType);
 
-            listOfObject = FXCollections.observableArrayList(
-                    new Customer("Maraon", "Jerome", "Dela Peña", "Male", LocalDate.parse("2001-04-08"), (byte) 23, "zainu3x007@gmail.com", "PNR Site", null),
-                    new Customer("Maraon", "Jerome", "Dela Peña", "Male", LocalDate.parse("2001-04-08"), (byte) 23, "zainu3x007@gmail.com", "PNR Site", null),
-                    new Customer("Maraon", "Jerome", "Dela Peña", "Male", LocalDate.parse("2001-04-08"), (byte) 23, "zainu3x007@gmail.com", "PNR Site", null),
-                    new Customer("Maraon", "Jerome", "Dela Peña", "Male", LocalDate.parse("2001-04-08"), (byte) 23, "zainu3x007@gmail.com", "PNR Site", null),
-                    new Customer("Maraon", "Jerome", "Dela Peña", "Male", LocalDate.parse("2001-04-08"), (byte) 23, "zainu3x007@gmail.com", "PNR Site", null)
-            );
+            AdminDashboardController.listOfObject = FXCollections.observableArrayList(Objects.requireNonNull(CrudOperation.fetchObjects("http://localhost:8080/api/v1/customer/find/all",
+                    AuthenticationTokenHolder.getToken())));
 
             List<String> listOfFieldName = List.of("LastName", "FirstName", "MiddleName", "Email");
 
@@ -55,21 +52,13 @@ public class CrudController implements Initializable {
             });
 
             objectsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
-            objectsTable.setItems(listOfObject);
+            objectsTable.setItems(AdminDashboardController.listOfObject);
 
         } else if (crudType.equals("Staffs List")) {
             crudLbl.setText(crudType);
             crudLbl.setText(crudType);
 
-            listOfObject = FXCollections.observableArrayList(
-                    new Customer("Maraon", "Jerome", "Dela Peña", "Male", LocalDate.parse("2001-04-08"), (byte) 23, "zainu3x007@gmail.com", "PNR Site", null),
-                    new Customer("Maraon", "Jerome", "Dela Peña", "Male", LocalDate.parse("2001-04-08"), (byte) 23, "zainu3x007@gmail.com", "PNR Site", null),
-                    new Customer("Maraon", "Jerome", "Dela Peña", "Male", LocalDate.parse("2001-04-08"), (byte) 23, "zainu3x007@gmail.com", "PNR Site", null),
-                    new Customer("Maraon", "Jerome", "Dela Peña", "Male", LocalDate.parse("2001-04-08"), (byte) 23, "zainu3x007@gmail.com", "PNR Site", null),
-                    new Customer("Maraon", "Jerome", "Dela Peña", "Male", LocalDate.parse("2001-04-08"), (byte) 23, "zainu3x007@gmail.com", "PNR Site", null)
-            );
-
-            List<String> listOfFieldName = List.of("LastName", "FirstName", "MiddleName", "Email");
+            List<String> listOfFieldName = List.of("Id", "FirstName", "LastName", "Email");
 
             listOfFieldName.forEach(fieldName -> {
                 TableColumn<Object, String> fieldColumn = new TableColumn<Object, String>(fieldName);
@@ -80,20 +69,12 @@ public class CrudController implements Initializable {
             });
 
             objectsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
-            objectsTable.setItems(listOfObject);
+            //objectsTable.setItems(listOfObject);
         } else if (crudType.equals("Inventory")) {
             crudLbl.setText(crudType);
             crudLbl.setText(crudType);
 
-            listOfObject = FXCollections.observableArrayList(
-                    new Customer("Maraon", "Jerome", "Dela Peña", "Male", LocalDate.parse("2001-04-08"), (byte) 23, "zainu3x007@gmail.com", "PNR Site", null),
-                    new Customer("Maraon", "Jerome", "Dela Peña", "Male", LocalDate.parse("2001-04-08"), (byte) 23, "zainu3x007@gmail.com", "PNR Site", null),
-                    new Customer("Maraon", "Jerome", "Dela Peña", "Male", LocalDate.parse("2001-04-08"), (byte) 23, "zainu3x007@gmail.com", "PNR Site", null),
-                    new Customer("Maraon", "Jerome", "Dela Peña", "Male", LocalDate.parse("2001-04-08"), (byte) 23, "zainu3x007@gmail.com", "PNR Site", null),
-                    new Customer("Maraon", "Jerome", "Dela Peña", "Male", LocalDate.parse("2001-04-08"), (byte) 23, "zainu3x007@gmail.com", "PNR Site", null)
-            );
-
-            List<String> listOfFieldName = List.of("LastName", "FirstName", "MiddleName", "Email");
+            List<String> listOfFieldName = List.of("Id", "Name", "Brand", "Price", "Quantity");
 
             listOfFieldName.forEach(fieldName -> {
                 TableColumn<Object, String> fieldColumn = new TableColumn<Object, String>(fieldName);
@@ -104,12 +85,16 @@ public class CrudController implements Initializable {
             });
 
             objectsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
-            objectsTable.setItems(listOfObject);
+            //objectsTable.setItems(listOfObject);
         }
     }
 
+    public static String crudOperation;
+
     public void addClicked() throws IOException {
         dialog = new Dialog<>();
+        crudOperation = "add";
+
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("views/customer-registration-form.fxml"));
         DialogPane dialogPane = fxmlLoader.load();
 
@@ -125,11 +110,19 @@ public class CrudController implements Initializable {
         }
 
         dialog.setDialogPane(dialogPane);
+        dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
         dialog.showAndWait();
+
+        AdminDashboardController.listOfObject = FXCollections.observableArrayList(Objects.requireNonNull(CrudOperation.fetchObjects("http://localhost:8080/api/v1/customer/find/all",
+                AuthenticationTokenHolder.getToken())));
+
+        objectsTable.setItems(AdminDashboardController.listOfObject);
     }
 
     public void updateClicked() throws IOException {
         dialog = new Dialog<>();
+        crudOperation = "update";
+        selectedCustomer = (Customer) objectsTable.getSelectionModel().getSelectedItem();
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("views/customer-registration-form.fxml"));
         DialogPane dialogPane = fxmlLoader.load();
 
@@ -145,7 +138,14 @@ public class CrudController implements Initializable {
         }
 
         dialog.setDialogPane(dialogPane);
+        dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
         dialog.showAndWait();
+
+        AdminDashboardController.listOfObject = FXCollections.observableArrayList(Objects.requireNonNull(CrudOperation.fetchObjects("http://localhost:8080/api/v1/customer/find/all",
+                AuthenticationTokenHolder.getToken())));
+
+        objectsTable.setItems(AdminDashboardController.listOfObject);
+        AdminDashboardController.listOfObject.remove(selectedCustomer);
     }
 
     public void deleteClicked() {
@@ -154,7 +154,12 @@ public class CrudController implements Initializable {
             int confirmation = JOptionPane.showConfirmDialog(null, "Are you sure to delete " + selectionModel.getFirstName() + " " + selectionModel.getLastName());
 
             if (confirmation == 0) {
-                listOfObject.remove(selectionModel);
+                CrudOperation.deleteObject("http://localhost:8080/api/v1/customer/delete/", AuthenticationTokenHolder.getToken(), selectionModel.getId());
+
+                AdminDashboardController.listOfObject = FXCollections.observableArrayList(Objects.requireNonNull(CrudOperation.fetchObjects("http://localhost:8080/api/v1/customer/find/all",
+                        AuthenticationTokenHolder.getToken())));
+
+                objectsTable.setItems(AdminDashboardController.listOfObject);
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "PLEASE SELECT RECORD!");
