@@ -76,7 +76,7 @@
                   <ImageView fx:id="passwordStatus" fitHeight="36.0" fitWidth="34.0" layoutX="377.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true" />
                </children>
             </Pane>
-            <Label layoutX="387.0" layoutY="422.0" styleClass="forgot-password" text="Forgot Password" underline="true">
+            <Label layoutX="387.0" layoutY="422.0" onMouseClicked="#fogotPasswordLabelClicked" styleClass="forgot-password" text="Forgot Password" underline="true">
                <font>
                   <Font size="14.0" />
                </font>

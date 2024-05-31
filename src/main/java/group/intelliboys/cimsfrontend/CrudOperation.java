@@ -3,7 +3,9 @@ package group.intelliboys.cimsfrontend;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import group.intelliboys.cimsfrontend.models.customer.Credit;
 import group.intelliboys.cimsfrontend.models.customer.Customer;
+import javafx.collections.ObservableList;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -39,6 +41,7 @@ public class CrudOperation {
             return false;
         }
     }
+
     public static List<Customer> fetchObjects(String uri, String authToken) {
         HttpClient httpClient = HttpClient.newHttpClient();
 
@@ -62,13 +65,38 @@ public class CrudOperation {
             return null;
         }
     }
+
+    public static List<Credit> fetchCredits(String uri, String authToken) {
+        HttpClient httpClient = HttpClient.newHttpClient();
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        try {
+            HttpRequest request = HttpRequest.newBuilder(new URI(uri))
+                    .GET()
+                    .header("Content-Type", "application/json")
+                    .header("Authorization", "Bearer " + authToken)
+                    .timeout(Duration.ofSeconds(30))
+                    .build();
+
+            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+            return objectMapper.readValue(response.body(), new TypeReference<>() {
+            });
+
+        } catch (Exception e) {
+            System.out.println(e);
+            return null;
+        }
+    }
+
     public static boolean deleteObject(String uri, String authToken, int objectId) {
         HttpClient httpClient = HttpClient.newHttpClient();
 
         ObjectMapper objectMapper = new ObjectMapper();
 
         try {
-            HttpRequest request = HttpRequest.newBuilder(new URI(uri+objectId))
+            HttpRequest request = HttpRequest.newBuilder(new URI(uri + objectId))
                     .DELETE()
                     .header("Content-Type", "application/json")
                     .header("Authorization", "Bearer " + authToken)
@@ -88,4 +116,54 @@ public class CrudOperation {
         }
     }
 
+    public static Object updateObject(String uri, String authToken, Object object) throws JsonProcessingException {
+        HttpClient httpClient = HttpClient.newHttpClient();
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String jsonString = objectMapper.writeValueAsString(object);
+
+        try {
+            HttpRequest request = HttpRequest.newBuilder(new URI(uri))
+                    .POST(HttpRequest.BodyPublishers.ofString(jsonString))
+                    .header("Content-Type", "application/json")
+                    .header("Authorization", "Bearer " + authToken)
+                    .timeout(Duration.ofSeconds(30))
+                    .build();
+
+            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+            Object o = objectMapper.readValue(response.body(), new TypeReference<>() {
+            });
+            System.out.println(o);
+
+            return o;
+
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public static List<Customer> searchObjects(String uri, String authToken, String keyword) {
+        HttpClient httpClient = HttpClient.newHttpClient();
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        try {
+            HttpRequest request = HttpRequest.newBuilder(new URI(uri + "/" + keyword))
+                    .GET()
+                    .header("Content-Type", "application/json")
+                    .header("Authorization", "Bearer " + authToken)
+                    .timeout(Duration.ofSeconds(30))
+                    .build();
+
+            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+            return objectMapper.readValue(response.body(), new TypeReference<>() {
+            });
+
+        } catch (Exception e) {
+            System.out.println(e);
+            return null;
+        }
+    }
 }

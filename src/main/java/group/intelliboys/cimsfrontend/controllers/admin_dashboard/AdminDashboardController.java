@@ -1,13 +1,16 @@
 package group.intelliboys.cimsfrontend.controllers.admin_dashboard;
 
 import group.intelliboys.cimsfrontend.App;
+import group.intelliboys.cimsfrontend.models.AuthenticationTokenHolder;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -16,6 +19,9 @@ public class AdminDashboardController implements Initializable {
 
     @FXML
     private TextField searchField;
+
+    public static String searchFieldValue;
+
     @FXML
     private Pane contentPane;
 
@@ -88,5 +94,30 @@ public class AdminDashboardController implements Initializable {
         Pane pane = fxmlLoader.load();
 
         contentPane.getChildren().add(pane);
+    }
+
+    public void searchCustomerTextChanged() throws IOException {
+        crudOperationType = "Search";
+        searchFieldValue = searchField.getText();
+
+        contentPane.getChildren().clear();
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("views/crud-view.fxml"));
+        Pane pane = fxmlLoader.load();
+
+        contentPane.getChildren().add(pane);
+    }
+
+    public void logoutButtonClicked() throws IOException {
+        int decision = JOptionPane.showConfirmDialog(null, "DO YOU WANT TO LOGOUT");
+
+        if (decision == 0) {
+            AuthenticationTokenHolder.setToken(null);
+
+            FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("views/login-view.fxml"));
+            Scene scene = new Scene(fxmlLoader.load());
+
+            App.primaryStage.setScene(scene);
+            App.primaryStage.centerOnScreen();
+        }
     }
 }

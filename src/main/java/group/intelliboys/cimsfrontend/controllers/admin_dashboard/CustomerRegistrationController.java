@@ -138,7 +138,7 @@ public class CustomerRegistrationController implements Initializable {
         if (CrudController.crudOperation.equals("add")) {
             addBtn.setText("ADD");
         } else if (CrudController.crudOperation.equals("update")) {
-            Customer selectionModel = CrudController.selectedCustomer;
+            Customer selectionModel = (Customer)CrudController.selectedCustomer;
 
             lastnameField.setText(selectionModel.getLastName());
             firstnameField.setText(selectionModel.getFirstName());
@@ -442,7 +442,7 @@ public class CustomerRegistrationController implements Initializable {
     }
 
     public void addBtnClicked() throws JsonProcessingException {
-        if (isFormValid()) {
+        if (isFormValid() && addBtn.getText().equals("ADD")) {
             StringBuilder address = new StringBuilder();
 
             address.append(houseNumField.getText() + ", ");
@@ -461,6 +461,30 @@ public class CustomerRegistrationController implements Initializable {
                     .build();
 
             System.out.println(CrudOperation.insertObjectFromDb("http://localhost:8080/api/v1/customer/add", AuthenticationTokenHolder.getToken(), customer));
+            CrudController.dialog.close();
+        }
+        else if (isFormValid() && addBtn.getText().equals("UPDATE")) {
+            StringBuilder address = new StringBuilder();
+
+            address.append(houseNumField.getText() + ", ");
+            address.append(barangayField.getValue() + ", ");
+            address.append(cityField.getValue());
+
+            Customer tmp = (Customer) CrudController.selectedCustomer;
+
+            Customer customer = Customer.builder()
+                    .id(tmp.getId())
+                    .lastName(lastnameField.getText())
+                    .firstName(firstnameField.getText())
+                    .middleName(middlenameField.getText())
+                    .sex(genderField.getValue())
+                    .birthDate(birthDateField.getValue().toString())
+                    .profilePic(byteArrayOutputStream.toByteArray())
+                    .address(new String(address))
+                    .email(emailField.getText())
+                    .build();
+
+            System.out.println(CrudOperation.updateObject("http://localhost:8080/api/v1/customer/add", AuthenticationTokenHolder.getToken(), customer));
             CrudController.dialog.close();
         }
     }

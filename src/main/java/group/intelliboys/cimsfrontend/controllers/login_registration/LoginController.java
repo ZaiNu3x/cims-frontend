@@ -10,9 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Tooltip;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -26,6 +24,8 @@ import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class LoginController implements Initializable {
 
@@ -201,5 +201,17 @@ public class LoginController implements Initializable {
         } else {
             System.out.println("Invalid!");
         }
+    }
+
+    public static Dialog<ButtonType> forgotPasswordDialog;
+
+    public void fogotPasswordLabelClicked() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("views/forgot-password-view.fxml"));
+        DialogPane otpPane = fxmlLoader.load();
+
+        forgotPasswordDialog  = new Dialog<>();
+        forgotPasswordDialog.setDialogPane(otpPane);
+        forgotPasswordDialog.setTitle("Forgot Password");
+        forgotPasswordDialog.showAndWait();
     }
 }

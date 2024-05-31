@@ -16,7 +16,7 @@
                   <Image url="@../images/search.png" />
                </image>
             </ImageView>
-            <TextField fx:id="searchField" layoutX="69.0" layoutY="36.0" prefHeight="41.0" prefWidth="198.0" promptText="Search" />
+            <TextField fx:id="searchField" layoutX="69.0" layoutY="36.0" onKeyTyped="#searchCustomerTextChanged" prefHeight="41.0" prefWidth="198.0" promptText="Search" />
             <Line endX="145.0" layoutX="146.0" layoutY="111.0" startX="-146.0" />
             <Button graphicTextGap="15.0" layoutX="16.0" layoutY="130.0" mnemonicParsing="false" onAction="#showCustomersClicked" prefHeight="64.0" prefWidth="259.0" text="SHOW CUSTOMERS">
                <graphic>
@@ -27,38 +27,11 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button graphicTextGap="15.0" layoutX="17.0" layoutY="227.0" mnemonicParsing="false" onAction="#showStaffsClicked" prefHeight="64.0" prefWidth="259.0" text="SHOW STAFFS">
-               <graphic>
-                  <ImageView fitHeight="37.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/teamwork.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button graphicTextGap="15.0" layoutX="17.0" layoutY="322.0" mnemonicParsing="false" onAction="#inventoryClicked" prefHeight="64.0" prefWidth="259.0" text="INVENTORY">
+            <Button graphicTextGap="15.0" layoutX="16.0" layoutY="226.0" mnemonicParsing="false" onAction="#inventoryClicked" prefHeight="64.0" prefWidth="259.0" text="INVENTORY" visible="false">
                <graphic>
                   <ImageView fitHeight="37.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/new-product.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button graphicTextGap="15.0" layoutX="16.0" layoutY="421.0" mnemonicParsing="false" onAction="#salesReportClicked" prefHeight="64.0" prefWidth="259.0" text="SALES REPORT">
-               <graphic>
-                  <ImageView fitHeight="37.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/statistics.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button graphicTextGap="15.0" layoutX="17.0" layoutY="527.0" mnemonicParsing="false" onAction="#predictiveAnalysisClicked" prefHeight="64.0" prefWidth="259.0" text="PREDICTIVE ANALYSIS">
-               <graphic>
-                  <ImageView fitHeight="37.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/predictive-chart.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -68,11 +41,11 @@
             <Line endX="145.0" layoutX="146.0" layoutY="404.0" startX="-146.0" />
             <Line endX="145.0" layoutX="146.0" layoutY="503.0" startX="-146.0" />
             <Line endX="145.0" layoutX="146.0" layoutY="614.0" startX="-146.0" />
-            <Button graphicTextGap="15.0" layoutX="17.0" layoutY="630.0" mnemonicParsing="false" onAction="#auditTrailClicked" prefHeight="64.0" prefWidth="259.0" text="AUDIT TRAIL">
+            <Button graphicTextGap="15.0" layoutX="18.0" layoutY="226.0" mnemonicParsing="false" onAction="#logoutButtonClicked" prefHeight="64.0" prefWidth="259.0" text="LOGOUT">
                <graphic>
                   <ImageView fitHeight="37.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../images/find.png" />
+                        <Image url="@../images/logout.png" />
                      </image>
                   </ImageView>
                </graphic>
